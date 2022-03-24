@@ -25,43 +25,65 @@ public class SessionController {
 
     @GetMapping("")
     public String allSession(Model model){
-        List<Session> allSession = sessionRepo.findAll();
-        model.addAttribute("allSession",allSession);
+        List<Session> allSession = (List<Session>) sessionRepo.findAll();
+        List<Trainer> trainerData = (List<Trainer>) trainerRepo.findAll();
+        model.addAttribute("sessionData",allSession);
+        model.addAttribute("trainerData",trainerData);
+
 
         return "allSession";
     }
 
-    @GetMapping("/{id}")
-    public String session(){
+    @GetMapping("/addSession/{id}")
+    public String session(Model model,@PathVariable ("id") int id){
+
+//        model.addAttribute("trainerData", trainerRepo.findById(id).get());
+
         return "allSession";
     }
 
-    @PostMapping("/addSession/{name}")
+    @PostMapping("/addSession/{id}")
     public RedirectView addSession (Model model,
-                                    @PathVariable String name,
+                                    @PathVariable ("id") int id,
                                     @RequestParam(value="sessionName") String sessionName,
                                     @RequestParam(value="price") float price,
                                     @RequestParam(value="capacity") int capacity,
                                     @RequestParam(value="imgUrl") String imgUrl,
                                     @RequestParam(value="type") String type,
-                                    @RequestParam(value="description") String description
-//                                    @RequestParam(value="description") Trainer trainer
-    ){
+                                    @RequestParam(value="description") String description){
+
+
+        List<Session> allSession = (List<Session>) sessionRepo.findAll();
+
+        model.addAttribute("sessionData",allSession);
+
 
         try {
 
-            Trainer trainer1 = trainerRepo.getByName(name);
-//            if(trainer1.getTrainerName().toLowerCase().equalsIgnoreCase(name)){
+
+
+                    Trainer trainer = (Trainer) trainerRepo.findById(id).get();
+                    model.addAttribute("trainer", trainer);
+
+
+                    Session session = new Session(sessionName,capacity,type,description,price,imgUrl,trainer);
+                    sessionRepo.save(session);
+
+
+
+                    return new RedirectView("/allSession");
+
+
+
+
+
+//            Trainer trainer1 = trainerRepo.getByTrainerName(trainerName);
+
+//            if(trainer1.getTrainerName().toLowerCase().equalsIgnoreCase(trainerName)){
 //                trainer1.getId();
 //
 //            }
 
-
-
-            Session addedSession = new Session(sessionName,capacity,type,description,price,imgUrl,trainer1);
-            sessionRepo.save(addedSession);
-            System.out.println("session added");
-            return  new RedirectView("/allSession");
 
         }catch (Error error){
             System.out.println("Failed");

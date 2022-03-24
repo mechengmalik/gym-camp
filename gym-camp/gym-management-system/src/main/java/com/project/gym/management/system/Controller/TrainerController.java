@@ -26,8 +26,8 @@ public class TrainerController {
 
     @GetMapping("")
     public String allTrainer(Model model){
-//        Trainer trainer= (Trainer) trainerRepo.findAll();
-//        model.addAttribute("trainer",trainer);
+        List<Trainer> trainer= (List<Trainer>) trainerRepo.findAll();
+        model.addAttribute("trainer",trainer);
 
         return "allTrainer";
     }
@@ -41,7 +41,6 @@ public class TrainerController {
 
     @PostMapping("/addTrainer")
     public RedirectView addTrainer (Model model,
-//                                    @PathVariable int id,
                                     @RequestParam (value = "trainerName") String trainerName,
                                     @RequestParam (value = "bio") String bio,
                                     @RequestParam (value = "education") String education,

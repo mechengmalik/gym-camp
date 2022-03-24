@@ -38,6 +38,9 @@ public class Session {
         this.imgUrl = imgUrl;
     }
 
+    public Session(String sessionName, int capacity, String type, String description, float price, String imgUrl) {
+    }
+
     public String getSessionName() {
         return this.sessionName;
     }
