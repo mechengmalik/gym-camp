@@ -1,6 +1,7 @@
 package com.project.gym.management.system.Models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Session {
@@ -14,8 +15,13 @@ public class Session {
     private float price;
     private String imgUrl;
 
+    @JoinColumn(name = "trainer_id")
     @ManyToOne
     private Trainer trainer;
+
+    @JoinColumn(name = "trainee_id")
+    @ManyToMany
+    private List<Trainee> trainees;
 
     public Session() {
     }

@@ -22,6 +22,70 @@
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="/docs/5.1/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+            Bootstrap
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav m-auto ">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+
+
+                <a class="nav-link active"  href="/allSession">Session</a>
+
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" href="/allTrainer">Trainer</a>
+                </li>
+                <li class="nav-item">
+
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"  href="/profile">My Profile</a>
+
+                </li>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link active nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Log In
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Admin</a></li>
+                        <li><a class="dropdown-item" href="#">Trainer</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Trainee</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1571388208497-71bedc66e932?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGd5bXxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60')">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">OUR TRAINER</div>
+    </div>
+</header>
+<hr class="my-4" />
+<br class="my-4" />
+<hr class="my-4" />
+<br class="my-4" />
+
 <div class="row ">
     <div class="col-lg-7 mx-auto">
         <div class="card mt-2 mx-auto p-4 bg-light">
@@ -92,6 +156,11 @@
                             <small class="text-text" th:text="${trainer.specialTraining}"></small>
                         </div>
                         <button> <a th:href="@{/allSession/addSession/{id}(id=${trainer.id})}" >Register to session</a></button>
+                        <form action="#" th:action="@{/allTrainer/deleteTrainer/{id}(id=${trainer.id})}" th:method="Delete" >
+                            <button type="submit" class="btn">
+                                Delete
+                            </button>
+                        </form>
 
                     </div>
                 </div>

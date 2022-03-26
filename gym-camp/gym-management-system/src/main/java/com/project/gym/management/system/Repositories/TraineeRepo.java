@@ -6,4 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TraineeRepo extends CrudRepository<Trainee,Integer> {
 
+    Trainee getById(int id);
 }
