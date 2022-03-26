@@ -15,6 +15,7 @@ public class Trainer {
     private int experience;
     private String imgUrl;
 
+    @JoinColumn(name = "session_id")
     @OneToMany
     private List<Session> sessions;
 
@@ -31,6 +32,15 @@ public class Trainer {
     }
 
     public Trainer(String trainerName, String bio, String education, String specialTraining, int experience) {
+        this.trainerName = trainerName;
+        this.bio = bio;
+        this.education = education;
+        this.specialTraining = specialTraining;
+        this.experience = experience;
+    }
+
+    public Trainer(int id, String trainerName, String bio, String education, String specialTraining, int experience) {
+        this.id = id;
         this.trainerName = trainerName;
         this.bio = bio;
         this.education = education;

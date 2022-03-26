@@ -84,9 +84,29 @@ public class TrainerController {
         }
     }
 
-    @PutMapping("editTrainer/{id}")
-    public String editTrainer(@PathVariable int id){
 
-        return "trainer";
+
+    @PutMapping("editTrainer/{id}")
+    public RedirectView editTrainer(@PathVariable int id, @RequestBody Trainer trainer){
+
+        try {
+            Trainer updateTrainer = trainerRepo.getById(id);
+            updateTrainer.setTrainerName(trainer.getTrainerName());
+            updateTrainer.setBio(trainer.getBio());
+            updateTrainer.setEducation(trainer.getEducation());
+            updateTrainer.setSpecialTraining(trainer.getSpecialTraining());
+            updateTrainer.setExperience(trainer.getExperience());
+
+            trainerRepo.save(updateTrainer);
+
+            return new RedirectView("/allSession");
+
+        }catch (Error error){
+            return new RedirectView("/error");
+
+        }
+
+
     }
+
 }

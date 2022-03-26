@@ -17,10 +17,13 @@ public class Trainee {
     private Date subscriptionStart;
     private Date endOFSubscription;
     private String email;
-    @ManyToMany
-    private List<Session>  sessions;
+
     @ManyToMany
     private List<Trainer> trainers;
+
+    @JoinColumn(name = "session_id")
+    @ManyToMany
+    private List<Session> sessions;
 
     public Trainee() {
     }
@@ -35,15 +38,24 @@ public class Trainee {
         this.sessions = sessions;
     }
 
-    public Trainee(String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email, List<Session> sessions, List<Trainer> trainers) {
+    public Trainee(int id ,String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.subscriptionStart = subscriptionStart;
         this.endOFSubscription = endOFSubscription;
         this.email = email;
-        this.sessions = sessions;
-        this.trainers = trainers;
+
+    }
+
+    public Trainee(String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        this.subscriptionStart = subscriptionStart;
+        this.endOFSubscription = endOFSubscription;
+        this.email = email;
     }
 
     public String getName() {
