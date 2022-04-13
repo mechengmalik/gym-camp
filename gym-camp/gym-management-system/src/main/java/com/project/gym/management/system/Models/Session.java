@@ -8,6 +8,15 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     private String sessionName;
     private int capacity;
     private String type;
@@ -16,15 +25,17 @@ public class Session {
     private String imgUrl;
 
     @JoinColumn(name = "trainer_id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
     private Trainer trainer;
 
     @JoinColumn(name = "trainee_id")
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Trainee> trainees;
 
     public Session() {
     }
+
 
     public Session(String sessionName, int capacity, String type, String description, float price, String imgUrl, Trainer trainer) {
         this.sessionName = sessionName;

@@ -51,17 +51,24 @@
                 </li>
 
 
+
+
                 <li class="nav-item dropdown">
                     <a class="nav-link active nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Log In
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Admin</a></li>
-                        <li><a class="dropdown-item" href="#">Trainer</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Trainee</a></li>
+                        <li><a class="dropdown-item" href="/login">Log In</a></li>
+                        <li>
+                            <form th:action="perform_logout" method="post"  name="logoutForm">
+                                <input type="submit" value="Logout" />
+                            </form>
+                        </li>
+
                     </ul>
                 </li>
+
+
 
             </ul>
             <form class="d-flex">
