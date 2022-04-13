@@ -1,5 +1,6 @@
 package com.project.gym.management.system.Controller;
 
+import com.project.gym.management.system.Models.Session;
 import com.project.gym.management.system.Models.Trainee;
 import com.project.gym.management.system.Models.Trainer;
 import com.project.gym.management.system.Repositories.SessionRepo;
@@ -16,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 @Controller
-@RequestMapping("/trainee")
+@RequestMapping("/allTrainee")
 public class TraineeController {
     @Autowired
     TraineeRepo traineeRepo;
@@ -36,30 +37,34 @@ public class TraineeController {
     @GetMapping("/addTrainee/{id}")
     public String newTrainee(@PathVariable("id") int id, Model model) {
 
-        model.addAttribute("trainee", traineeRepo.findById(id).get());
-        return ("allSession");
+        Session sessionInfo = sessionRepo.findById(id).get();
+
+        model.addAttribute("sessionInfo",sessionInfo);
+        return ("session");
     }
 
-    @PostMapping("/addTrainee")
+    @PostMapping("/addTrainee/{id}")
     public RedirectView addTrainee (Model model,
-                                    @RequestParam(value = "name") String name,
-                                    @RequestParam (value = "gender") String gender,
-                                    @RequestParam (value = "age") int age,
+                                    @PathVariable("id") int id,
+                                    @RequestParam(value = "traineeName") String name,
+                                    @RequestParam (value = "bio") String bio,
+                                    @RequestParam (value = "dob") Date dob,
                                     @RequestParam (value = "subscriptionStart") Date subscriptionStart,
                                     @RequestParam (value = "endOFSubscription") Date endOFSubscription,
                                     @RequestParam (value = "email") String email) {
 
+        List<Trainee> allTrainee = (List<Trainee>) traineeRepo.findAll();
+
+        model.addAttribute("allTrainee",allTrainee);
+
         try {
-//            Session session = sessionRepo.getById(id);
+            Session session = sessionRepo.findById(id).get();
+            model.addAttribute("session",session);
 
-//            List<Session> sessionList = new ArrayList<>();
-//            sessionList.add(session);
 
-//            model.addAttribute("session",session);
-
-            Trainee trainee = new Trainee(name,gender,age,subscriptionStart,endOFSubscription,email);
+            Trainee trainee = new Trainee(name,bio,dob,subscriptionStart,endOFSubscription,email, (List<Session>) session);
             traineeRepo.save(trainee);
-            return new RedirectView("/allSession");
+            return new RedirectView("/session");
 
         }catch (Error error){
             return new RedirectView("/error");
@@ -92,9 +97,9 @@ public class TraineeController {
 
         try {
             Trainee updateTrainee = traineeRepo.getById(id);
-            updateTrainee.setName(trainee.getName());
-            updateTrainee.setGender(trainee.getGender());
-            updateTrainee.setAge(trainee.getAge());
+            updateTrainee.setTraineeName(trainee.getTraineeName());
+            updateTrainee.setBio(trainee.getBio());
+            updateTrainee.setDob(trainee.getDob());
             updateTrainee.setSubscriptionStart(trainee.getSubscriptionStart());
             updateTrainee.setEndOFSubscription(trainee.getEndOFSubscription());
             updateTrainee.setEmail(trainee.getEmail());
