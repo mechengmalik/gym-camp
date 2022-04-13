@@ -32,15 +32,18 @@ public class ApplicationUserController {
 
 
     @PostMapping("/signup")
-    public RedirectView signUpUser(@RequestParam(value = "username") String username,
+    public RedirectView signUpUser(Model model,
+                                   @RequestParam(value = "username") String username,
                                    @RequestParam(value = "password") String password,
                                    @RequestParam(value = "firstname") String firstName,
                                    @RequestParam(value = "lastname") String lastName,
                                    @RequestParam(value = "dob") String dob,
-                                   @RequestParam(value = "bio") String bio) {
-        ApplicationUser newAppUser = new ApplicationUser(username, encoder.encode(password), firstName, lastName, dob, bio);
+                                   @RequestParam(value = "email") String email,
+                                   @RequestParam(value = "type") String type) {
+        ApplicationUser newAppUser = new ApplicationUser(username, encoder.encode(password), firstName, lastName, dob, email, type);
 //        System.out.println(newAppUser.toString());
         appUserRepository.save(newAppUser);
+        model.addAttribute("user",newAppUser);
         return new RedirectView("/login");
     }
 
@@ -54,11 +57,18 @@ public class ApplicationUserController {
     @GetMapping("/profile")
     public String getProfile(Model m, Principal principal) {
         try {
-            ApplicationUser user = appUserRepository.findByUsername(principal.getName());
-            m.addAttribute("user", user);
+            ApplicationUser profile = appUserRepository.findByUsername(principal.getName());
+            m.addAttribute("profile", profile);
             return "profile";
         } catch (Exception e) {
             return "error";
         }
+    }
+
+
+    @GetMapping("/logout")
+    public String logout() {
+
+        return "index";
     }
 }
