@@ -1,28 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Uo</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login page</title>
+    <link rel="stylesheet" href="./signUp.css" >
 </head>
 
 
 <body>
+<div class="login-html">
 
 <form action="/signup" method="post">
-    <label for="username">User Name:  <input type="text" name="username" id="username"> </label>
-    <br>
-    <label for="password">Password:  <input type="password" name="password" id="password"> </label>
-    <br>
-    <label for="firstname">First Name:  <input type="text" name="firstname" id="firstname"> </label>
-    <br>
-    <label for="lastname">Last Name:  <input type="text" name="lastname" id="lastname"> </label>
-    <br>
-    <label for="dob">Birth Day:  <input type="text" name="dob" id="dob"> </label>
-    <br>
-    <label for="bio">Gender:  <input type="text" name="bio" id="bio"> </label>
-    <br>
-    <button type="submit">Register</button>
+    <input id="tab-1" type="radio" name="tab" class="sign-up" checked><label for="tab-1" class="tab">Sign Up</label>
+
+    <div class="login-form">
+    <div class="sign-up-htm">
+        <div class="group">
+            <label for="username">User Name:  <input type="text" name="username" id="username"> </label>
+
+        </div>
+        <div class="group">
+            <label for="password">Password:  <input type="password" name="password" id="password"> </label>
+        </div>
+        <div class="group">
+            <label for="firstname">First Name:  <input type="text" name="firstname" id="firstname"> </label>
+        </div>
+        <div class="group">
+            <label for="lastname">Last Name:  <input type="text" name="lastname" id="lastname"> </label>
+        </div>
+        <div class="group">
+            <label for="dob">Gender:  <input type="text" name="dob" id="dob"> </label>
+        </div>
+        <div class="group">
+            <label for="email">User E-mail:  <input type="text" name="email" id="email"> </label>
+        </div>
+        <div class="group">
+            <select id="type" name="type" class="form-control" required="required" data-error="Please specify the type.">
+                <option value="" selected disabled>--Specify User Type--</option>
+                <option>admin</option>
+                <option>trainee</option>
+
+            </select>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div class="group">
+            <input type="submit" class="button" value="Sign up">
+        </div>
+
+
+        </div>
+    </div>
 </form>
+</div>
+
+
 
 
 
