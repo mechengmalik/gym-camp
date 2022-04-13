@@ -22,31 +22,51 @@ public class ApplicationUser implements UserDetails {
     private String firstName;
     private String lastName;
     private String dob;
-    private String bio;
+    private String email;
+    private String type;
+
+    public ApplicationUser(String username, String encode, String firstName, String lastName, String dob, String type) {
+    }
 
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public ApplicationUser(){
 
     }
 
 
-
-
-    public ApplicationUser( String username, String password, String firstName, String lastName, String dob, String bio) {
-
+    public ApplicationUser(String username, String password, String firstName, String lastName, String dob, String email, String type) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
-        this.bio = bio;
-
-
+        this.email = email;
+        this.type = type;
     }
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -91,13 +111,6 @@ public class ApplicationUser implements UserDetails {
         this.dob = dob;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
 
     public int getId() {
         return id;
@@ -142,7 +155,6 @@ public class ApplicationUser implements UserDetails {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dob='" + dob + '\'' +
-                ", bio='" + bio + '\'' +
                 '}';
     }
 }
