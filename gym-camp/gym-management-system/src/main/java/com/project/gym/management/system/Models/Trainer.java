@@ -16,7 +16,7 @@ public class Trainer {
     private String imgUrl;
 
     @JoinColumn(name = "session_id")
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Session> sessions;
 
     public Trainer() {
