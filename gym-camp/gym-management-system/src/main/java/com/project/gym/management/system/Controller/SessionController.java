@@ -34,6 +34,15 @@ public class SessionController {
         return "allSession";
     }
 
+    @GetMapping("/session/{id}")
+    public RedirectView showSession(Model model ,@PathVariable ("id") int id){
+
+        Session show = sessionRepo.findById(id).get();
+        model.addAttribute("showSession",show);
+
+        return new RedirectView ("/session");
+    }
+
     @GetMapping("/addSession/{id}")
     public String session(Model model,@PathVariable ("id") int id){
 
@@ -61,7 +70,6 @@ public class SessionController {
         try {
 
 
-
                     Trainer trainer = (Trainer) trainerRepo.findById(id).get();
                     model.addAttribute("trainer", trainer);
 
@@ -72,17 +80,6 @@ public class SessionController {
 
 
                     return new RedirectView("/allSession");
-
-
-
-
-
-//            Trainer trainer1 = trainerRepo.getByTrainerName(trainerName);
-
-//            if(trainer1.getTrainerName().toLowerCase().equalsIgnoreCase(trainerName)){
-//                trainer1.getId();
-//
-//            }
 
 
         }catch (Error error){
