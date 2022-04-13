@@ -1,7 +1,5 @@
 package com.project.gym.management.system.Models;
 
-import org.springframework.web.bind.annotation.GetMapping;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -11,75 +9,76 @@ public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String name;
-    private String gender;
-    private int age;
+    private String traineeName;
+    private String bio;
+    private Date dob;
     private Date subscriptionStart;
     private Date endOFSubscription;
     private String email;
 
-    @ManyToMany
+    @JoinColumn(name = "trainer_id")
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Trainer> trainers;
 
     @JoinColumn(name = "session_id")
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Session> sessions;
 
     public Trainee() {
     }
 
-    public Trainee(String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email, List<Session> sessions) {
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
+    public Trainee(String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email, List<Session> sessions) {
+        this.traineeName = traineeName;
+        this.bio = bio;
+        this.dob = dob;
         this.subscriptionStart = subscriptionStart;
         this.endOFSubscription = endOFSubscription;
         this.email = email;
         this.sessions = sessions;
     }
 
-    public Trainee(int id ,String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email) {
+    public Trainee(int id ,String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email) {
         this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
+        this.traineeName = traineeName;
+        this.bio = bio;
+        this.dob = dob;
         this.subscriptionStart = subscriptionStart;
         this.endOFSubscription = endOFSubscription;
         this.email = email;
 
     }
 
-    public Trainee(String name, String gender, int age, Date subscriptionStart, Date endOFSubscription, String email) {
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
+    public Trainee(String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email) {
+        this.traineeName = traineeName;
+        this.bio = bio;
+        this.dob = dob;
         this.subscriptionStart = subscriptionStart;
         this.endOFSubscription = endOFSubscription;
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public String getTraineeName() {
+        return traineeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTraineeName(String traineeName) {
+        this.traineeName = traineeName;
     }
 
-    public String getGender() {
-        return gender;
+    public String getBio() {
+        return bio;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 
-    public int getAge() {
-        return age;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 
     public Date getSubscriptionStart() {
