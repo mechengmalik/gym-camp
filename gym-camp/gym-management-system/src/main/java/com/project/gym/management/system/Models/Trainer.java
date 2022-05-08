@@ -15,8 +15,12 @@ public class Trainer {
     private int experience;
     private String imgUrl;
 
-    @JoinColumn(name = "session_id")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @JoinColumn(name = "sessions_id")
+    @OneToMany( mappedBy = "trainer",
+                cascade  = {CascadeType.PERSIST,
+                          CascadeType.MERGE,
+                          CascadeType.REFRESH,
+                          CascadeType.DETACH})
     private List<Session> sessions;
 
     public Trainer() {

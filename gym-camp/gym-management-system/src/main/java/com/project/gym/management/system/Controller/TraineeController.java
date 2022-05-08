@@ -2,19 +2,15 @@ package com.project.gym.management.system.Controller;
 
 import com.project.gym.management.system.Models.Session;
 import com.project.gym.management.system.Models.Trainee;
-import com.project.gym.management.system.Models.Trainer;
 import com.project.gym.management.system.Repositories.SessionRepo;
 import com.project.gym.management.system.Repositories.TraineeRepo;
-import com.project.gym.management.system.Repositories.TrainerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.persistence.Entity;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/allTrainee")
@@ -25,11 +21,12 @@ public class TraineeController {
     @Autowired
     SessionRepo sessionRepo;
 
+  List<Object> traineeSession = new ArrayList<>();
 
     @GetMapping("")
-    public String allTrainee(Model model){
-        List<Trainee> trainee= (List<Trainee>) traineeRepo.findAll();
-        model.addAttribute("trainee",trainee);
+    public String allTrainee(Model model) {
+        List<Trainee> trainee = (List<Trainee>) traineeRepo.findAll();
+        model.addAttribute("trainee", trainee);
 
         return "allSession";
     }
@@ -37,42 +34,156 @@ public class TraineeController {
     @GetMapping("/addTrainee/{id}")
     public String newTrainee(@PathVariable("id") int id, Model model) {
 
-        Session sessionInfo = sessionRepo.findById(id).get();
+        Session sessionInfo = sessionRepo.getById(id);
+//        System.out.println(sessionInfo);
 
-        model.addAttribute("sessionInfo",sessionInfo);
+        model.addAttribute("sessionInfo", sessionInfo);
         return ("session");
     }
 
     @PostMapping("/addTrainee/{id}")
-    public RedirectView addTrainee (Model model,
-                                    @PathVariable("id") int id,
-                                    @RequestParam(value = "traineeName") String name,
-                                    @RequestParam (value = "bio") String bio,
-                                    @RequestParam (value = "dob") Date dob,
-                                    @RequestParam (value = "subscriptionStart") Date subscriptionStart,
-                                    @RequestParam (value = "endOFSubscription") Date endOFSubscription,
-                                    @RequestParam (value = "email") String email) {
+    public String addTrainee(Model model,
+                             @PathVariable("id") int id,
+                             @RequestParam(value = "traineeName") String traineeName,
+                             @RequestParam(value = "bio") String bio,
+//                                    @RequestParam (value = "dob") Date dob,
+//                                    @RequestParam (value = "subscriptionStart") Date subscriptionStart,
+//                                    @RequestParam (value = "endOFSubscription") Date endOFSubscription,
+                             @RequestParam(value = "email") String email) {
 
         List<Trainee> allTrainee = (List<Trainee>) traineeRepo.findAll();
 
-        model.addAttribute("allTrainee",allTrainee);
-
-        try {
-            Session session = sessionRepo.findById(id).get();
-            model.addAttribute("session",session);
+        Session session = sessionRepo.getById(id);
+        Trainee oldTrainee = traineeRepo.getByEmail(email);
+        List  trainees = new ArrayList<>();
 
 
-            Trainee trainee = new Trainee(name,bio,dob,subscriptionStart,endOFSubscription,email, (List<Session>) session);
-            traineeRepo.save(trainee);
-            return new RedirectView("/session");
 
-        }catch (Error error){
-            return new RedirectView("/error");
+        model.addAttribute("allTrainee", allTrainee);
+        model.addAttribute("sessionInfo", session);
+
+        boolean check = session.getTrainee().contains(oldTrainee);
+
+        if (oldTrainee != null && traineeRepo.existsById(oldTrainee.getId()) && !check) {
+            try {
+                trainees.add( session.getTrainee());
+                trainees.add(oldTrainee);
+                session.setTrainee(trainees);
+                sessionRepo.save(session);
+
+
+                return "session";
+
+            }catch (Error error){
+                return "error";
+            }
+        }else {
+            Trainee newTrainee = new Trainee(traineeName,bio,email);
+            traineeRepo.save(newTrainee);
+            trainees.add( session.getTrainee());
+            trainees.add(newTrainee);
+
+            session.setTrainee(trainees);
+            sessionRepo.save(session);
+            return "session";
         }
-
-
-
     }
+
+//    @PostMapping("/addTrainee/{id}")
+//    public String addTrainee(Model model,
+//                             @PathVariable("id") int id,
+//                             @RequestParam(value = "traineeName") String traineeName,
+//                             @RequestParam(value = "bio") String bio,
+////                                    @RequestParam (value = "dob") Date dob,
+////                                    @RequestParam (value = "subscriptionStart") Date subscriptionStart,
+////                                    @RequestParam (value = "endOFSubscription") Date endOFSubscription,
+//                             @RequestParam(value = "email") String email) {
+//
+//        List<Trainee> allTrainee = (List<Trainee>) traineeRepo.findAll();
+//
+//        Session session = sessionRepo.getById(id);
+//        Trainee oldTrainee = traineeRepo.getByEmail(email);
+//        Set<Trainee> set = new HashSet<>();
+//
+//
+//
+//        model.addAttribute("allTrainee", allTrainee);
+//        model.addAttribute("sessionInfo", session);
+//
+//
+//        if (oldTrainee!=null && traineeRepo.existsById(oldTrainee.getId())) {
+//            try {
+//                Set<Session> traineeSession = new HashSet<>();
+//
+//                traineeSession.add((Session) oldTrainee.getSessions());
+//                traineeSession.add(session);
+//
+//                set.add(oldTrainee);
+//                oldTrainee.setSessions(traineeSession);
+//
+//                session.setTrainee(set);
+//                traineeRepo.save(oldTrainee);
+////                sessionRepo.save(session);
+//                return "session";
+//
+//
+////            if (traineeRepo.findById(traineeRepo.getByEmail(email).getId()).isPresent()) {
+//
+//
+//            } catch (Exception exception) {
+//
+//                Trainee newTrainee = new Trainee(traineeName, bio, email);
+//                set.add(newTrainee);
+//
+//                traineeRepo.save(newTrainee);
+//
+//
+//                session.setTrainee(set);
+//                System.out.println(newTrainee + "s2s2s2s2s2s2s2s2s");
+//
+//                sessionRepo.save(session);
+////            newTrainee.setSessions(traineeSession);
+////            traineeRepo.save(newTrainee);
+//
+//
+////                Trainee oldTrainee = traineeRepo.getByEmail(email);
+////                int existTrainee = oldTrainee.getId();
+//
+////                if (traineeRepo.findById(existTrainee).isPresent())
+//
+////                    oldTrainee.setSessions(traineeSession);
+//
+////                    traineeRepo.save(oldTrainee);
+//                return "session";
+//
+//
+//            } catch (Error error) {
+//                return "error";
+//            }
+//
+//        }else {
+//            try {
+//                Trainee newTrainee = new Trainee(traineeName, bio, email);
+//                set.add(newTrainee);
+//                traineeRepo.save(newTrainee);
+//
+//                List<Trainee> traineeSession = new ArrayList<>();
+//                traineeSession.add((Trainee) session.getTrainee());
+//                session.setTrainee((Set<Trainee>) traineeSession);
+//                System.out.println(newTrainee + "s2s2s2s2s2s2s2s2s");
+//
+//                sessionRepo.save(session);
+//                return "session";
+//
+//
+//            }catch (Error error){
+//                return "error";
+//
+//            }
+//        }
+//    }
+
+
 
     @DeleteMapping("/deleteTrainee/{id}")
     public RedirectView deleteTrainee (@PathVariable int id){
@@ -99,9 +210,9 @@ public class TraineeController {
             Trainee updateTrainee = traineeRepo.getById(id);
             updateTrainee.setTraineeName(trainee.getTraineeName());
             updateTrainee.setBio(trainee.getBio());
-            updateTrainee.setDob(trainee.getDob());
-            updateTrainee.setSubscriptionStart(trainee.getSubscriptionStart());
-            updateTrainee.setEndOFSubscription(trainee.getEndOFSubscription());
+//            updateTrainee.setDob(trainee.getDob());
+//            updateTrainee.setSubscriptionStart(trainee.getSubscriptionStart());
+//            updateTrainee.setEndOFSubscription(trainee.getEndOFSubscription());
             updateTrainee.setEmail(trainee.getEmail());
 
             traineeRepo.save(updateTrainee);

@@ -79,27 +79,63 @@
     </div>
 </nav>
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1571388208497-71bedc66e932?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGd5bXxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60')">
-    <div class="container">
-        <div class="masthead-subheading">Welcome To Our Session!</div>
-        <div class="masthead-heading text-uppercase">Looking For What Fit You</div>
-        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Show Me</a>
-    </div>
+<header>
 </header>
 
 <div class="container">
     <div class=" text-center mt-5 ">
-    <h1>Session Form</h1>
+        <h1>Session Form</h1>
     </div>
     <div class="row ">
         <div class="col-lg-7 mx-auto">
             <div class="card mt-2 mx-auto p-4 bg-light">
                 <div class="card-body bg-light">
                     <div class="container">
+                            <form    method="POST">
+<!--                                <form   th:action="@{allSession/updateSession/{id}(id=${session.id})}" th:object="${session}" method="POST">-->
 
-                    </div>
-                    <button class="col-md-12" > <a class="nav-link active" href="allSession/addSession">Add Session</a>  </button>
-                </div>
+                            <div class="controls">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group"> <label for="SessionName">Session Name </label> <input id="SessionName" type="text" name="sessionName" class="form-control" placeholder=" session name " required="required" data-error="session name is required."> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group"> <label for="trainer"> Session Trainer *</label> <input id="trainer" type="text" name="trainer" class="form-control" placeholder="Trainer Name *" required="required" data-error="Trainer name is required."> </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group"> <label for="price">Session Price *</label> <input id="price" type="number" name="price" class="form-control" placeholder="Session Price *" required="required" data-error="Valid email is required."> </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group"> <label for="capacity">Capacity *</label> <input id="capacity" type="number" name="capacity" class="form-control" placeholder="Session capacity *" required="required" data-error="Valid email is required."> </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group"> <label for="type">Type</label>
+                                        <select id="type" name="type" class="form-control" required="required" data-error="Please specify the type.">
+                                            <option value="" selected disabled>--specify Session Type--</option>
+                                            <option>Functional fitness area</option>
+                                            <option>Free weights area</option>
+                                            <option>Stretching and mobility area</option>
+                                            <option>Personal training</option>
+                                        </select>
+                                        <div class="col-md-6">
+                                            <div class="form-group"> <label for="imgUrl">Image *</label> <input id="imgUrl" type="text" name="imgUrl" class="form-control" placeholder="Session Image *" required="required" data-error="Valid email is required."> </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group"> <label for="description">description *</label> <textarea id="description" name="description" class="form-control" placeholder="Write Session description here." rows="4" required="required" data-error="Please, leave a description"></textarea> </div>
+                                    </div>
+                                    <div class="col-md-12"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Add Session"> </div>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div> <!-- /.8 -->
@@ -107,60 +143,6 @@
     </div>
 </div>
 
-<!-- Main Content-->
-
-
-<br class="my-4" />
-
-<div class="container px-4 px-lg-5" id="services">
-    <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col" th:each="sessionData :${sessionData}">
-            <!-- Post preview-->
-            <hr class="my-4" />
-            <br class="my-4" />
-            <br>
-            <div class="row row-cols-1 row-cols-md-2 g-4" >
-
-
-                <div class="col">
-                    <div class="card">
-                        <img th:src="${sessionData.imgUrl}">
-                        <div class="card-body">
-                            <h4 class="card-title" th:text="${sessionData.type}"></h4>
-
-                            <h5 class="card-title" th:text="${sessionData.sessionName}"></h5>
-                            <p class="card-text" th:text="${sessionData.description}"></p>
-                        </div>
-                        <div class="card-footer">
-                            <span>capacity : </span><small class="text-text" th:text="${sessionData.capacity}"></small>
-
-                        </div>
-                        <div class="card-footer">
-                            <span>price :</span><small class="text-text" th:text="${sessionData.price}"></small> <span>$</span>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-<!--            <div class="col-md-2"> >-->
-<!--                <a class="btn btn-success btn-send pt-2 btn-block " th:href="@{/allTrainee/addTrainee/{id}(id=${sessionData.id})}" >Register-->
-<!--                </a>-->
-<!--            </div>-->
-            <form  th:action="@{/allTrainee/addTrainee/{id}(id=${sessionData.id})}" th:method="GET" >
-                <div class="col-md-2"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Register"> </div>
-            </form>
-
-            <form  th:action="@{/allSession/deleteSession/{id}(id=${sessionData.id})}" th:method="delete" >
-                <div class="col-md-2"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Delete"> </div>
-            </form>
-
-            <form  th:action="@{/allSession/updateSession/{id}(id=${sessionData.id})}"  >
-                <button type="submit" class="btn">Update</button>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- Footer-->
 <br>
 <br>

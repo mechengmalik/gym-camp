@@ -1,7 +1,9 @@
 package com.project.gym.management.system.Models;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Session {
@@ -25,13 +27,24 @@ public class Session {
     private String imgUrl;
 
     @JoinColumn(name = "trainer_id")
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST,
+                          CascadeType.MERGE,
+                          CascadeType.REFRESH},
+                          fetch = FetchType.LAZY )
 
     private Trainer trainer;
 
-    @JoinColumn(name = "trainee_id")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Trainee> trainees;
+    @ManyToMany( fetch = FetchType.LAZY,
+               cascade  = {CascadeType.PERSIST,
+                             CascadeType.MERGE,
+                             CascadeType.REFRESH,
+                             CascadeType.DETACH})
+    @JoinTable(
+            name = "session_trainee",
+            joinColumns = @JoinColumn(name = "session_id"),
+            inverseJoinColumns = @JoinColumn(name = "trainee_id")
+    )
+    private List <Trainee> trainee;
 
     public Session() {
     }
@@ -115,4 +128,14 @@ public class Session {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+    public void setTrainee(List<Trainee> trainee) {
+        this.trainee = trainee;
+    }
+
+    public List <Trainee> getTrainee() {
+        return trainee;
+    }
+
+
 }

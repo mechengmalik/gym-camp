@@ -1,8 +1,8 @@
 package com.project.gym.management.system.Models;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Trainee {
@@ -11,50 +11,57 @@ public class Trainee {
     private int id;
     private String traineeName;
     private String bio;
-    private Date dob;
-    private Date subscriptionStart;
-    private Date endOFSubscription;
+//    private Date dob;
+//    private Date subscriptionStart;
+//    private Date endOFSubscription;
     private String email;
 
-    @JoinColumn(name = "trainer_id")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Trainer> trainers;
 
-    @JoinColumn(name = "session_id")
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Session> sessions;
+
+    @ManyToMany( fetch = FetchType.LAZY,
+                 cascade  = {CascadeType.PERSIST,
+                             CascadeType.MERGE,
+                             CascadeType.REFRESH,
+                             CascadeType.DETACH})
+    @JoinTable(
+            name = "session_trainee",
+            joinColumns = @JoinColumn(name = "trainee_id"),
+            inverseJoinColumns = @JoinColumn(name = "session_id")
+    )
+
+    private List <Session> sessions;
+
+
 
     public Trainee() {
     }
 
-    public Trainee(String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email, List<Session> sessions) {
+    public Trainee(String traineeName, String bio, String email) {
         this.traineeName = traineeName;
         this.bio = bio;
-        this.dob = dob;
-        this.subscriptionStart = subscriptionStart;
-        this.endOFSubscription = endOFSubscription;
+//        this.dob = dob;
+//        this.subscriptionStart = subscriptionStart;
+//        this.endOFSubscription = endOFSubscription;
         this.email = email;
-        this.sessions = sessions;
+//        this.sessions = sessions;
     }
 
-    public Trainee(int id ,String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Trainee(int id , String traineeName, String bio, String email) {
         this.id = id;
         this.traineeName = traineeName;
         this.bio = bio;
-        this.dob = dob;
-        this.subscriptionStart = subscriptionStart;
-        this.endOFSubscription = endOFSubscription;
+//        this.subscriptionStart = subscriptionStart;
+//        this.endOFSubscription = endOFSubscription;
         this.email = email;
 
-    }
-
-    public Trainee(String traineeName, String bio, Date dob, Date subscriptionStart, Date endOFSubscription, String email) {
-        this.traineeName = traineeName;
-        this.bio = bio;
-        this.dob = dob;
-        this.subscriptionStart = subscriptionStart;
-        this.endOFSubscription = endOFSubscription;
-        this.email = email;
     }
 
     public String getTraineeName() {
@@ -73,29 +80,29 @@ public class Trainee {
         this.bio = bio;
     }
 
-    public Date getDob() {
-        return dob;
-    }
+//    public Date getDob() {
+//        return dob;
+//    }
+//
+//    public void setDob(Date dob) {
+//        this.dob = dob;
+//    }
 
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
-
-    public Date getSubscriptionStart() {
-        return subscriptionStart;
-    }
-
-    public void setSubscriptionStart(Date subscriptionStart) {
-        this.subscriptionStart = subscriptionStart;
-    }
-
-    public Date getEndOFSubscription() {
-        return endOFSubscription;
-    }
-
-    public void setEndOFSubscription(Date endOFSubscription) {
-        this.endOFSubscription = endOFSubscription;
-    }
+//    public Date getSubscriptionStart() {
+//        return subscriptionStart;
+//    }
+//
+//    public void setSubscriptionStart(Date subscriptionStart) {
+//        this.subscriptionStart = subscriptionStart;
+//    }
+//
+//    public Date getEndOFSubscription() {
+//        return endOFSubscription;
+//    }
+//
+//    public void setEndOFSubscription(Date endOFSubscription) {
+//        this.endOFSubscription = endOFSubscription;
+//    }
 
     public String getEmail() {
         return email;
@@ -105,19 +112,19 @@ public class Trainee {
         this.email = email;
     }
 
-    public List<Session> getSessions() {
+
+    public List getSessions() {
         return sessions;
     }
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
     }
+//    public List<Trainer> getTrainers() {
+//        return trainers;
+//    }
 
-    public List<Trainer> getTrainers() {
-        return trainers;
-    }
-
-    public void setTrainers(List<Trainer> trainers) {
-        this.trainers = trainers;
-    }
+//    public void setTrainers(List<Trainer> trainers) {
+//        this.trainers = trainers;
+//    }
 }
