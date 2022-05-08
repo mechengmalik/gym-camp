@@ -78,7 +78,7 @@ public class TrainerController {
                 Trainer trainer = trainerRepo.getById(id);
                 trainerRepo.delete(trainer);
             }
-            return new RedirectView ("/trainer");
+            return new RedirectView ("/allTrainer");
 
         }catch (Error error){
             return new RedirectView("/error");

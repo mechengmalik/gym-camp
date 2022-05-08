@@ -7,11 +7,11 @@ import com.project.gym.management.system.Repositories.TrainerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/allSession")
@@ -21,7 +21,6 @@ public class SessionController {
 
     @Autowired
     TrainerRepo trainerRepo;
-
 
     @GetMapping("")
     public String allSession(Model model){
@@ -43,41 +42,47 @@ public class SessionController {
         return new RedirectView ("/session");
     }
 
-    @GetMapping("/addSession/{id}")
-    public String session(Model model,@PathVariable ("id") int id){
 
-//        model.addAttribute("trainerData", trainerRepo.findById(id).get());
 
-        return "allSession";
+    @GetMapping("/addSession")
+    public String showForm(){
+    return "form";
     }
 
-    @PostMapping("/addSession/{id}")
+
+    @PostMapping("/addSession")
     public RedirectView addSession (Model model,
-                                    @PathVariable ("id") int id,
                                     @RequestParam(value="sessionName") String sessionName,
                                     @RequestParam(value="price") float price,
                                     @RequestParam(value="capacity") int capacity,
                                     @RequestParam(value="imgUrl") String imgUrl,
                                     @RequestParam(value="type") String type,
+                                    @RequestParam(value="trainer") String trainer,
                                     @RequestParam(value="description") String description){
 
-
+        List<Trainer> trainerData = (List<Trainer>) trainerRepo.findAll();
         List<Session> allSession = (List<Session>) sessionRepo.findAll();
 
         model.addAttribute("sessionData",allSession);
 
-
         try {
 
+            Trainer associatedTrainer = trainerRepo.getByTrainerName(trainer);
+//            System.out.println(associatedTrainer.getTrainerName());
 
-                    Trainer trainer = (Trainer) trainerRepo.findById(id).get();
-                    model.addAttribute("trainer", trainer);
+            Set set = new HashSet();
+            set.add(associatedTrainer);
 
 
-                    Session session = new Session(sessionName,capacity,type,description,price,imgUrl,trainer);
+
+            for (int i = 0; i < set.size(); i++) {
+                if (set.contains(associatedTrainer)){
+
+                    Session session = new Session(sessionName,capacity,type,description,price,imgUrl,associatedTrainer);
                     sessionRepo.save(session);
+                }
 
-
+            }
 
                     return new RedirectView("/allSession");
 
@@ -90,6 +95,9 @@ public class SessionController {
 
     }
 
+
+
+
     @DeleteMapping("/deleteSession/{id}")
     public String delete (@PathVariable int id){
 
@@ -100,7 +108,7 @@ public class SessionController {
             sessionRepo.delete(deletedSession);
 
             }
-            return "session";
+            return "allSession";
 
         }catch (Error error){
             return "error";
@@ -108,29 +116,82 @@ public class SessionController {
 
     }
 
-    @PutMapping("editSession/{id}")
-    public RedirectView editSession(@PathVariable int id, @RequestBody Session session){
 
-        try {
-            Session updateSession = sessionRepo.getById(id);
-            updateSession.setCapacity(session.getCapacity());
-            updateSession.setSessionName(session.getSessionName());
-            updateSession.setDescription(session.getDescription());
-            updateSession.setType(session.getType());
-            updateSession.setPrice(session.getPrice());
-            updateSession.setImgUrl(session.getImgUrl());
-            updateSession.setTrainer(session.getTrainer());
+    @GetMapping("updateSession/{id}")
+    public  String updateForm(@PathVariable int id,Model model){
 
-            sessionRepo.save(updateSession);
 
-            return new RedirectView("/allSession");
+        Session session = sessionRepo.getById(id);
 
-        }catch (Error error){
-            return new RedirectView("/error");
 
-        }
 
+       model.addAttribute("sessionData",session);
+//        System.out.println(session.getId());
+        return "updateForm";
 
     }
+//@RequestMapping(method = RequestMethod.PUT
+//        , consumes = {"application/x-www-form-urlencoded"}
+//        ,value = "updateSession/{id}")
+//public RedirectView editSession(@PathVariable int id,@RequestBody MultiValueMap params,Session session) {
+
+    @PutMapping("allSession/updateSession/allSession/updateSession/{id}")
+    public RedirectView updateData(@PathVariable int id,Session session,Model model){
+
+        Session sessionData = sessionRepo.getById(id);
+
+
+
+        model.addAttribute("sessionData",sessionData);
+//        System.out.println(session.getId());
+
+
+    try {
+        Session updateSession = sessionRepo.getById(id);
+
+        updateSession.setCapacity(session.getCapacity());
+        updateSession.setSessionName(session.getSessionName());
+        updateSession.setDescription(session.getDescription());
+        updateSession.setType(session.getType());
+        updateSession.setPrice(session.getPrice());
+        updateSession.setImgUrl(session.getImgUrl());
+        updateSession.setTrainer(session.getTrainer());
+
+        sessionRepo.save(updateSession);
+
+        return new RedirectView("/allSession");
+
+    }catch (Error error){
+        return new RedirectView("/error");
+
+    }
+
+}
+
+//    @PutMapping("updateSession/{id}")
+//    public RedirectView editSession(@PathVariable int id, @RequestBody Session session, Model model){
+//
+//        try {
+//            Session updateSession = sessionRepo.getById(id);
+//
+//            updateSession.setCapacity(session.getCapacity());
+//            updateSession.setSessionName(session.getSessionName());
+//            updateSession.setDescription(session.getDescription());
+//            updateSession.setType(session.getType());
+//            updateSession.setPrice(session.getPrice());
+//            updateSession.setImgUrl(session.getImgUrl());
+//            updateSession.setTrainer(session.getTrainer());
+//
+//            sessionRepo.save(updateSession);
+//
+//            return new RedirectView("/allSession");
+//
+//        }catch (Error error){
+//            return new RedirectView("/error");
+//
+//        }
+//
+//
+//    }
 
 }
