@@ -81,6 +81,7 @@ public class TrainerController {
                 List<Session> se = trainer.getSessions();
                 for (Session s :se){
                     s.setTrainer(null);
+
                 }
 
                 trainerRepo.save(trainer);
