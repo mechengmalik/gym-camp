@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -76,7 +77,15 @@ public class TrainerController {
             if (trainerRepo.findById(id).isPresent()) {
 
                 Trainer trainer = trainerRepo.getById(id);
+//                trainer.setSessions(null);
+                List<Session> se = trainer.getSessions();
+                for (Session s :se){
+                    s.setTrainer(null);
+                }
+
+                trainerRepo.save(trainer);
                 trainerRepo.delete(trainer);
+
             }
             return new RedirectView ("/allTrainer");
 
