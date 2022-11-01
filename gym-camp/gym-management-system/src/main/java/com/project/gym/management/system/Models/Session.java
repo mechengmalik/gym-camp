@@ -1,9 +1,10 @@
 package com.project.gym.management.system.Models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 public class Session {
@@ -26,12 +27,13 @@ public class Session {
     private float price;
     private String imgUrl;
 
-    @JoinColumn(name = "trainer_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @ManyToOne(cascade = {CascadeType.PERSIST,
                           CascadeType.MERGE,
-                          CascadeType.REFRESH},
+                          CascadeType.REFRESH,
+                          CascadeType.DETACH,},
                           fetch = FetchType.LAZY )
-
+    @JoinColumn(name = "trainer_id")
     private Trainer trainer;
 
     @ManyToMany( fetch = FetchType.LAZY,

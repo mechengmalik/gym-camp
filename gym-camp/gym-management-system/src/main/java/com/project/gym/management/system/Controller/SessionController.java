@@ -22,6 +22,8 @@ public class SessionController {
     @Autowired
     TrainerRepo trainerRepo;
 
+    Set trainerSet = new HashSet();
+
     @GetMapping("")
     public String allSession(Model model){
         List<Session> allSession = (List<Session>) sessionRepo.findAll();
@@ -70,13 +72,13 @@ public class SessionController {
             Trainer associatedTrainer = trainerRepo.getByTrainerName(trainer);
 //            System.out.println(associatedTrainer.getTrainerName());
 
-            Set set = new HashSet();
-            set.add(associatedTrainer);
+
+            trainerSet.add(associatedTrainer);
 
 
 
-            for (int i = 0; i < set.size(); i++) {
-                if (set.contains(associatedTrainer)){
+            for (int i = 0; i < trainerSet.size(); i++) {
+                if (trainerSet.contains(associatedTrainer)){
 
                     Session session = new Session(sessionName,capacity,type,description,price,imgUrl,associatedTrainer);
                     sessionRepo.save(session);
@@ -88,10 +90,13 @@ public class SessionController {
 
 
         }catch (Error error){
-            System.out.println("Failed");
-            return new RedirectView("/error");
+//            System.out.println("Failed");
+//            return new RedirectView("/error");
+            Session session = new Session(sessionName,capacity,type,description,price,imgUrl);
+            sessionRepo.save(session);
 
         }
+        return new RedirectView("/allSession");
 
     }
 
@@ -99,7 +104,7 @@ public class SessionController {
 
 
     @DeleteMapping("/deleteSession/{id}")
-    public String delete (@PathVariable int id){
+    public RedirectView delete (@PathVariable int id){
 
         try {
             if (sessionRepo.findById(id).isPresent()){
@@ -108,10 +113,10 @@ public class SessionController {
             sessionRepo.delete(deletedSession);
 
             }
-            return "allSession";
+            return new RedirectView("allSession");
 
         }catch (Error error){
-            return "error";
+            return new RedirectView("allSession");
         }
 
     }

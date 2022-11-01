@@ -1,5 +1,8 @@
 package com.project.gym.management.system.Models;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class Trainer {
     private String imgUrl;
 
 //    @JoinColumn(name = "sessions_id")
+@OnDelete(action = OnDeleteAction.CASCADE)
     @OneToMany( mappedBy = "trainer",
                 cascade  = {CascadeType.PERSIST,
                           CascadeType.MERGE,

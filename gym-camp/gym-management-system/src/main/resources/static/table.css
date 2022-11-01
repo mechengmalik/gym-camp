@@ -12,6 +12,7 @@
   display: table-row
   background: #f6f6f6
 
+
   &:nth-of-type(odd)
     background: #e9e9e9
 
