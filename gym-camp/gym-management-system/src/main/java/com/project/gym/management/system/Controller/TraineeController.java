@@ -21,73 +21,134 @@ public class TraineeController {
     @Autowired
     SessionRepo sessionRepo;
 
+
+
+
   List<Object> traineeSession = new ArrayList<>();
+
+
+
 
     @GetMapping("")
     public String allTrainee(Model model) {
         List<Trainee> trainee = (List<Trainee>) traineeRepo.findAll();
         model.addAttribute("trainee", trainee);
 
-        return "allSession";
+        return "allTrainee";
     }
 
-    @GetMapping("/addTrainee/{id}")
-    public String newTrainee(@PathVariable("id") int id, Model model) {
-
-        Session sessionInfo = sessionRepo.getById(id);
-//        System.out.println(sessionInfo);
-
-        model.addAttribute("sessionInfo", sessionInfo);
-        return ("session");
+    @GetMapping("/addTrainee")
+    public String showForm(){
+        return "TraineeForm";
     }
 
-    @PostMapping("/addTrainee/{id}")
-    public String addTrainee(Model model,
-                             @PathVariable("id") int id,
+    @PostMapping("/addTrainee")
+    public RedirectView addTrainee(Model model,
                              @RequestParam(value = "traineeName") String traineeName,
-                             @RequestParam(value = "bio") String bio,
-//                                    @RequestParam (value = "dob") Date dob,
-//                                    @RequestParam (value = "subscriptionStart") Date subscriptionStart,
-//                                    @RequestParam (value = "endOFSubscription") Date endOFSubscription,
-                             @RequestParam(value = "email") String email) {
+                             @RequestParam(value = "gender") String gender,
+                             @RequestParam(value = "email") String email,
+                             @RequestParam(value = "phoneNumber") Integer phoneNumber,
+                             @RequestParam(value = "socialNumber") Integer socialNumber) {
+     try{
+        Trainee newTrainee = new Trainee(traineeName,gender,socialNumber,phoneNumber,email);
+        traineeRepo.save(newTrainee);
 
-        List<Trainee> allTrainee = (List<Trainee>) traineeRepo.findAll();
+        return new RedirectView("/allSession");
+        }catch (Error error){
 
-        Session session = sessionRepo.getById(id);
-        Trainee oldTrainee = traineeRepo.getByEmail(email);
-        List  trainees = new ArrayList<>();
+        return new RedirectView("/error");
+     }
 
-
-
-        model.addAttribute("allTrainee", allTrainee);
-        model.addAttribute("sessionInfo", session);
-
-        boolean check = session.getTrainee().contains(oldTrainee);
-
-        if (oldTrainee != null && traineeRepo.existsById(oldTrainee.getId()) && !check) {
-            try {
-                trainees.add( session.getTrainee());
-                trainees.add(oldTrainee);
-                session.setTrainee(trainees);
-                sessionRepo.save(session);
+    }
 
 
-                return "session";
+    @DeleteMapping("/deleteTrainee/{id}")
+    public RedirectView deleteTrainee (@PathVariable int id){
 
-            }catch (Error error){
-                return "error";
+        try {
+            if (traineeRepo.findById(id).isPresent()) {
+
+                Trainee trainee = traineeRepo.getById(id);
+                traineeRepo.delete(trainee);
             }
-        }else {
-            Trainee newTrainee = new Trainee(traineeName,bio,email);
-            traineeRepo.save(newTrainee);
-            trainees.add( session.getTrainee());
-            trainees.add(newTrainee);
+            return new RedirectView ("/allTrainee");
 
-            session.setTrainee(trainees);
-            sessionRepo.save(session);
-            return "session";
+        }catch (Error error){
+            return new RedirectView("/error");
         }
     }
+
+
+
+    @PutMapping("editTrainer/{id}")
+    public RedirectView editTrainee(@PathVariable int id, @RequestBody Trainee trainee){
+
+        try {
+            Trainee updateTrainee = traineeRepo.getById(id);
+            updateTrainee.setTraineeName(trainee.getTraineeName());
+//            updateTrainee.setDob(trainee.getDob());
+//            updateTrainee.setSubscriptionStart(trainee.getSubscriptionStart());
+//            updateTrainee.setEndOFSubscription(trainee.getEndOFSubscription());
+            updateTrainee.setEmail(trainee.getEmail());
+
+            traineeRepo.save(updateTrainee);
+
+            return new RedirectView("/allSession");
+
+        }catch (Error error){
+            return new RedirectView("/error");
+
+        }
+
+
+    }
+
+//    @PostMapping("/addTrainee/{id}")
+//    public String addTrainee(Model model,
+//                             @PathVariable("id") int id,
+//                             @RequestParam(value = "traineeName") String traineeName,
+//                             @RequestParam(value = "gender") String gender,
+//                             @RequestParam(value = "email") String email,
+//                             @RequestParam(value = "phoneNumber") Integer phoneNumber,
+//                             @RequestParam(value = "socialNumber") Integer socialNumber) {
+//
+//        List<Trainee> allTrainee = (List<Trainee>) traineeRepo.findAll();
+//
+//        Session session = sessionRepo.getById(id);
+//        Trainee oldTrainee = traineeRepo.getByEmail(email);
+//        List  trainees = new ArrayList<>();
+//
+//
+//
+//        model.addAttribute("allTrainee", allTrainee);
+//        model.addAttribute("sessionInfo", session);
+//
+//        boolean check = session.getTrainee().contains(oldTrainee);
+//
+//        if (oldTrainee != null && traineeRepo.existsById(oldTrainee.getId()) && !check) {
+//            try {
+//                trainees.add( session.getTrainee());
+//                trainees.add(oldTrainee);
+//                session.setTrainee(trainees);
+//                sessionRepo.save(session);
+//
+//
+//                return "session";
+//
+//            }catch (Error error){
+//                return "error";
+//            }
+//        }else {
+//            Trainee newTrainee = new Trainee(traineeName,email);
+//            traineeRepo.save(newTrainee);
+//            trainees.add( session.getTrainee());
+//            trainees.add(newTrainee);
+//
+//            session.setTrainee(trainees);
+//            sessionRepo.save(session);
+//            return "session";
+//        }
+//    }
 
 //    @PostMapping("/addTrainee/{id}")
 //    public String addTrainee(Model model,
@@ -185,45 +246,5 @@ public class TraineeController {
 
 
 
-    @DeleteMapping("/deleteTrainee/{id}")
-    public RedirectView deleteTrainee (@PathVariable int id){
 
-        try {
-            if (traineeRepo.findById(id).isPresent()) {
-
-                Trainee trainee = traineeRepo.getById(id);
-                traineeRepo.delete(trainee);
-            }
-            return new RedirectView ("/allSession");
-
-        }catch (Error error){
-            return new RedirectView("/error");
-        }
-    }
-
-
-
-    @PutMapping("editTrainer/{id}")
-    public RedirectView editTrainee(@PathVariable int id, @RequestBody Trainee trainee){
-
-        try {
-            Trainee updateTrainee = traineeRepo.getById(id);
-            updateTrainee.setTraineeName(trainee.getTraineeName());
-            updateTrainee.setBio(trainee.getBio());
-//            updateTrainee.setDob(trainee.getDob());
-//            updateTrainee.setSubscriptionStart(trainee.getSubscriptionStart());
-//            updateTrainee.setEndOFSubscription(trainee.getEndOFSubscription());
-            updateTrainee.setEmail(trainee.getEmail());
-
-            traineeRepo.save(updateTrainee);
-
-            return new RedirectView("/allSession");
-
-        }catch (Error error){
-            return new RedirectView("/error");
-
-        }
-
-
-    }
 }

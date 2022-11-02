@@ -20,7 +20,6 @@
     <link rel="stylesheet" href="./form.css" >
 
 </head>
-<body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -76,71 +75,51 @@
         </div>
     </div>
 </nav>
-<!-- Page Header-->
-<header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1571388208497-71bedc66e932?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGd5bXxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60')">
-    <div class="container">
-        <div class="masthead-heading text-uppercase">OUR TRAINER</div>
-    </div>
-</header>
-<hr class="my-4" />
-<br class="my-4" />
-<hr class="my-4" />
-<br class="my-4" />
 
-<div class="container">
+<body>
+<div class="row ">
+    <div class="col-lg-7 mx-auto">
+        <div class="card mt-2 mx-auto p-4 bg-light">
+            <div class="card-body bg-light">
+                <div class="container">
+                    <form  th:action="@{/allTrainer/addTrainer}" method="POST">
+                        <div class="controls">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"> <label for="trainerName">Trainer Name </label> <input id="trainerName" type="text" name="trainerName" class="form-control" placeholder=" trainer name " required="required" data-error="session name is required."> </div>
+                                </div>
 
-    <div class="row ">
-        <div class="col-lg-7 mx-auto">
-            <div class="card mt-2 mx-auto p-4 bg-light">
-                <div class="card-body bg-light">
-                    <div class="container">
+                            </div>
 
-                    </div>
-                    <button class="col-md-12" > <a class="nav-link active" href="allTrainer/addTrainer">Add Trainer</a>  </button>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group"> <label for="experience">Trainer Experience *</label> <input id="experience" type="number" name="experience" class="form-control" placeholder="year of experience  *" required="required" data-error="Valid email is required."> </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group"> <label for="education">Education *</label> <textarea id="education" name="education" class="form-control" placeholder="Trainer Education." required="required" data-error="Please, leave a description"></textarea> </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <div class="form-group"> <label for="specialTraining">Special Training *</label> <textarea id="specialTraining" name="specialTraining" class="form-control" placeholder="Trainer Special Training."  required="required" data-error="Please, leave a description"></textarea> </div>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group"> <label for="bio">Bio *</label> <textarea id="bio" name="bio" class="form-control" placeholder="Write Trainer Bio Here." rows="4" required="required" data-error="Please, leave a description"></textarea> </div>
+                                </div>
+                                <div class="col-md-12"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Add Trainer"> </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </div>
-    </div> <!-- /.8 -->
-</div> <!-- /.row-->
-</div>
+        </div> <!-- /.8 -->
+    </div> <!-- /.row-->
 </div>
 
-
-
-<div class="container px-4 px-lg-5" >
-<div class="row gx-4 gx-lg-5 justify-content-center">
-    <div class="col" th:each="trainer :${trainer}">
-        <!-- Post preview-->
-        <hr class="my-4" />
-        <br class="my-4" />
-        <br>
-        <div class="row row-cols-1 row-cols-md-2 g-4" >
-
-
-            <div class="col">
-                <div class="card">
-                    <img th:src="${trainer.imgUrl}">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${trainer.trainerName}"></h5>
-                        <p class="card-text" th:text="${trainer.bio}"></p>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-text" th:text="${trainer.specialTraining}"></small>
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
-<!--        <button> <a th:href="@{/allSession/addSession/{id}(id=${trainer.id})}" >Register to session</a></button>-->
-        <form action="#" th:action="@{/allTrainer/deleteTrainer/{id}(id=${trainer.id})}" th:method="Delete" >
-            <button type="submit" class="btn">Delete</button>
-        </form>
-
-    </div>
-
-</div>
-</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
 </body>

@@ -10,40 +10,52 @@ public class Trainee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String traineeName;
-    private String bio;
-//    private Date dob;
-//    private Date subscriptionStart;
-//    private Date endOFSubscription;
+    private String gender;
+    private int socialNumber;
+    private int phoneNumber;
     private String email;
 
 
-
-    @ManyToMany( fetch = FetchType.LAZY,
-                 cascade  = {CascadeType.PERSIST,
-                             CascadeType.MERGE,
-                             CascadeType.REFRESH,
-                             CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST,
+                    CascadeType.MERGE,
+                    CascadeType.REFRESH,
+                    CascadeType.DETACH})
     @JoinTable(
             name = "session_trainee",
             joinColumns = @JoinColumn(name = "trainee_id"),
             inverseJoinColumns = @JoinColumn(name = "session_id")
     )
 
-    private List <Session> sessions;
-
+    private List<Session> sessions;
 
 
     public Trainee() {
     }
 
-    public Trainee(String traineeName, String bio, String email) {
+    public Trainee(String traineeName, String gender, int socialNumber, int phoneNumber, String email) {
         this.traineeName = traineeName;
-        this.bio = bio;
-//        this.dob = dob;
-//        this.subscriptionStart = subscriptionStart;
-//        this.endOFSubscription = endOFSubscription;
+        this.gender = gender;
+        this.socialNumber = socialNumber;
+        this.phoneNumber = phoneNumber;
         this.email = email;
-//        this.sessions = sessions;
+    }
+
+    public Trainee(String traineeName, String gender, int socialNumber, int phoneNumber, String email, List<Session> sessions) {
+        this.traineeName = traineeName;
+        this.gender = gender;
+
+        this.socialNumber = socialNumber;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.sessions = sessions;
+    }
+
+    public Trainee(String traineeName, String email) {
+        this.traineeName = traineeName;
+
+        this.email = email;
+
     }
 
     public int getId() {
@@ -54,16 +66,6 @@ public class Trainee {
         this.id = id;
     }
 
-    public Trainee(int id , String traineeName, String bio, String email) {
-        this.id = id;
-        this.traineeName = traineeName;
-        this.bio = bio;
-//        this.subscriptionStart = subscriptionStart;
-//        this.endOFSubscription = endOFSubscription;
-        this.email = email;
-
-    }
-
     public String getTraineeName() {
         return traineeName;
     }
@@ -72,37 +74,30 @@ public class Trainee {
         this.traineeName = traineeName;
     }
 
-    public String getBio() {
-        return bio;
+    public String getGender() {
+        return gender;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-//    public Date getDob() {
-//        return dob;
-//    }
-//
-//    public void setDob(Date dob) {
-//        this.dob = dob;
-//    }
 
-//    public Date getSubscriptionStart() {
-//        return subscriptionStart;
-//    }
-//
-//    public void setSubscriptionStart(Date subscriptionStart) {
-//        this.subscriptionStart = subscriptionStart;
-//    }
-//
-//    public Date getEndOFSubscription() {
-//        return endOFSubscription;
-//    }
-//
-//    public void setEndOFSubscription(Date endOFSubscription) {
-//        this.endOFSubscription = endOFSubscription;
-//    }
+    public int getSocialNumber() {
+        return socialNumber;
+    }
+
+    public void setSocialNumber(int socialNumber) {
+        this.socialNumber = socialNumber;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getEmail() {
         return email;
@@ -112,19 +107,23 @@ public class Trainee {
         this.email = email;
     }
 
-
-    public List getSessions() {
+    public List<Session> getSessions() {
         return sessions;
     }
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
     }
-//    public List<Trainer> getTrainers() {
-//        return trainers;
-//    }
-
-//    public void setTrainers(List<Trainer> trainers) {
-//        this.trainers = trainers;
-//    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
