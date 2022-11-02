@@ -34,6 +34,11 @@ public class TrainerController {
         return "allTrainer";
     }
 
+    @GetMapping("/addTrainer")
+    public String showForm(){
+        return "TrainerForm";
+    }
+
     @GetMapping("/addTrainer/{id}")
     public String newSong(@PathVariable("id") int id, Model model) {
 
@@ -84,7 +89,7 @@ public class TrainerController {
 
                 }
 
-                trainerRepo.save(trainer);
+//                trainerRepo.save(trainer);
                 trainerRepo.delete(trainer);
 
             }
