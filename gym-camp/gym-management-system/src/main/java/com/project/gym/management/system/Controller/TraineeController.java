@@ -53,7 +53,7 @@ public class TraineeController {
         Trainee newTrainee = new Trainee(traineeName,gender,socialNumber,phoneNumber,email);
         traineeRepo.save(newTrainee);
 
-        return new RedirectView("/allSession");
+        return new RedirectView("/allTrainee");
         }catch (Error error){
 
         return new RedirectView("/error");

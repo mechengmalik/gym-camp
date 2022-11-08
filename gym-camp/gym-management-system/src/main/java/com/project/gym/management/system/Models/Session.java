@@ -46,6 +46,7 @@ public class Session {
             joinColumns = @JoinColumn(name = "session_id"),
             inverseJoinColumns = @JoinColumn(name = "trainee_id")
     )
+
     private List <Trainee> trainee;
 
     public Session() {
@@ -140,4 +141,7 @@ public class Session {
     }
 
 
+    public void addTrainee(Trainee addedTrainee) {
+        this.trainee.add(addedTrainee);
+    }
 }
