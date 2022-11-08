@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Session Details</title>
-    <link  href="./table.css" >
-
+    <title>Clean Blog - Start Bootstrap Theme</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -18,12 +16,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet">
-
-
+    <link rel="stylesheet" href="./index.css" >
+<!--    <link rel="stylesheet" href="./form.css" >-->
 
 </head>
-<body>
+<header class="masthead" style="background-image: url('https://images.unsplash.com/photo-1571388208497-71bedc66e932?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NTB8fGd5bXxlbnwwfDB8MHx8&auto=format&fit=crop&w=500&q=60')">
+    <div class="container">
+        <div class="masthead-subheading">Available Session!</div>
 
+    </div>
+</header>
+<body>
+<!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">
@@ -51,9 +55,7 @@
 
 
                 <li class="nav-item">
-
-                    <a class="nav-link active"  href="/profile">My Profile</a>
-
+                    <a class="nav-link active" href="/allTrainee">Trainee</a>
                 </li>
 
 
@@ -61,7 +63,6 @@
                     <a class="nav-link active nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Log In
                     </a>
-
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="/login">Log In</a></li>
                         <li>
@@ -83,162 +84,17 @@
 </nav>
 <!-- Page Header-->
 
-<hr class="my-4" />
+
+
+
+<!-- Main Content-->
+
+
 <br class="my-4" />
-<hr class="my-4" />
-<br class="my-4" />
 
-<div class="row ">
-    <div class="col-lg-7 mx-auto">
-        <div class="card mt-2 mx-auto p-4 bg-light">
-            <div class="card-body bg-light" >
-                <div class="container"  >
-
-
-
-                    <form  method="POST">
-                        <div class="controls">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group"> <label for="traineeName">Trainee Name : </label> <input id="traineeName" type="text" name="traineeName" class="form-control" placeholder=" trainee name " required="required" data-error="name is required."> </div>
-                                </div>
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group"> <label for="email">Email : *</label> <input id="email" type="email" name="email" class="form-control" placeholder="email  *" required="required" data-error="Valid email is required."> </div>
-                                </div>
-<!--                                <div class="col-md-6">-->
-<!--                                    <div class="form-group"> <label for="dob">Day Of Birth Start*</label> <input id="dob" type="date" name="dob" class="form-control" required="required" data-error="Please, leave a description"> </div>-->
-<!--                                </div>-->
-                            </div>
-<!--                            <div class="col-md-6">-->
-<!--                                <div class="col-md-12">-->
-<!--                                    <div class="form-group"> <label for="subscriptionStart">Subscription Start*</label> <input id="subscriptionStart" type="date" name="subscriptionStart" class="form-control" required="required" data-error="Please, leave a description"> </div>-->
-<!--                                    <div class="form-group"> <label for="endOFSubscription">Subscription End*</label> <input id="endOFSubscription" type="date" name="endOFSubscription" class="form-control"   required="required" data-error="Please, leave a description"> </div>-->
-
-<!--                                </div>-->
-
-
-<!--                            </div>-->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group"> <label for="bio">Bio *</label> <textarea id="bio" name="bio" class="form-control" placeholder="Write Trainer Bio Here." rows="4" required="required" data-error="Please, leave a description"></textarea> </div>
-                                </div>
-                                <div class="col-md-12"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Add Trainee"> </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> <!-- /.8 -->
-    </div> <!-- /.row-->
-</div>
-<div th:each="allTrainee :${allTrainee}">
-    <h5 th:text="${allTrainee.traineeName}"></h5>
-    <h5></h5>
-    <h5></h5>
-    <h5></h5>
-
-</div>
-<div class="table">
-
-    <div class="row header green">
-        <div class="cell">
-            Product
-        </div>
-        <div class="cell">
-            Unit Price
-        </div>
-        <div class="cell">
-            Quantity
-        </div>
-        <div class="cell">
-            Date Sold
-        </div>
-        <div class="cell">
-            Status
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="cell" data-title="Product">
-            Solid oak work table
-        </div>
-        <div class="cell" data-title="Unit Price">
-            $800
-        </div>
-        <div class="cell" data-title="Quantity">
-            10
-        </div>
-        <div class="cell" data-title="Date Sold">
-            03/15/2014
-        </div>
-        <div class="cell" data-title="Status">
-            Waiting for Pickup
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="cell" data-title="Product">
-            Leather iPhone wallet
-        </div>
-        <div class="cell" data-title="Unit Price">
-            $45
-        </div>
-        <div class="cell" data-title="Quantity">
-            120
-        </div>
-        <div class="cell" data-title="Date Sold">
-            02/28/2014
-        </div>
-        <div class="cell" data-title="Status">
-            In Transit
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="cell" data-title="Product">
-            27" Apple Thunderbolt displays
-        </div>
-        <div class="cell" data-title="Unit Price">
-            $1000
-        </div>
-        <div class="cell" data-title="Quantity">
-            25
-        </div>
-        <div class="cell" data-title="Date Sold">
-            02/10/2014
-        </div>
-        <div class="cell" data-title="Status">
-            Delivered
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="cell" data-title="Product">
-            Bose studio headphones
-        </div>
-        <div class="cell" data-title="Unit Price">
-            $60
-        </div>
-        <div class="cell" data-title="Quantity">
-            90
-        </div>
-        <div class="cell" data-title="Date Sold">
-            01/14/2014
-        </div>
-        <div class="cell" data-title="Status">
-            Delivered
-        </div>
-    </div>
-
-</div>
-
-<div class="container px-4 px-lg-5" >
+<div class="container  px-4 px-lg-5" id="services" th:each="trainee :${trainee}">
     <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col" th:each="sessionInfo :${sessionInfo}">
+        <div class="col" th:each="sessionForReg :${sessionForReg}">
             <!-- Post preview-->
             <hr class="my-4" />
             <br class="my-4" />
@@ -248,29 +104,77 @@
 
                 <div class="col">
                     <div class="card">
-                        <img th:src="${sessionInfo.imgUrl}">
+                        <img th:src="${sessionForReg.imgUrl}">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${sessionInfo.sessionName}"></h5>
-                            <p class="card-text" th:text="${sessionInfo.capacity}"></p>
+                            <h4 class="card-title" th:text="${sessionForReg.type}"></h4>
+
+                            <h5 class="card-title" th:text="${sessionForReg.sessionName}"></h5>
+                            <p class="card-text" th:text="${sessionForReg.description}"></p>
                         </div>
                         <div class="card-footer">
-                            <small class="text-text" th:text="${sessionInfo.price}"></small>
+                            <span>capacity : </span><small class="text-text" th:text="${sessionForReg.capacity}"></small>
+
+                        </div>
+                        <div class="card-footer">
+                            <span>price :</span><small class="text-text" th:text="${sessionForReg.price}"></small> <span>$</span>
                         </div>
                     </div>
                 </div>
 
 
             </div>
-            <button> <a th:href="@{/allTrainee/addTrainee/{id}(id=${sessionInfo.id})}" >Register to session</a></button>
-            <form action="#" th:action="@{/allTrainer/deleteTrainer/{id}(id=${sessionInfo.id})}" th:method="Delete" >
-                <button type="submit" class="btn">Delete</button>
+
+            <form  th:action="@{/allSession/addTrainee}" th:method="PUT" >
+                <input type="hidden" name="sessionForReg" th:value="${sessionForReg.id}">
+                <input type="hidden" name="trainee" th:value="${trainee.id}">
+
+                <div class="col-md-2"> <input type="submit" class="btn btn-success btn-send pt-2 btn-block " value="Register"> </div>
             </form>
 
-        </div>
 
+        </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- Footer-->
+<br>
+<br>
+<br>
 
+<footer class="border-top">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <ul class="list-inline text-center">
+                    <li class="list-inline-item">
+                        <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                    </span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#!">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="small text-center text-muted fst-italic">Copyright &copy; malik 2022</div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>

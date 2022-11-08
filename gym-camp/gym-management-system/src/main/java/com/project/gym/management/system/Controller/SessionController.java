@@ -1,8 +1,10 @@
 package com.project.gym.management.system.Controller;
 
 import com.project.gym.management.system.Models.Session;
+import com.project.gym.management.system.Models.Trainee;
 import com.project.gym.management.system.Models.Trainer;
 import com.project.gym.management.system.Repositories.SessionRepo;
+import com.project.gym.management.system.Repositories.TraineeRepo;
 import com.project.gym.management.system.Repositories.TrainerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ public class SessionController {
 
     @Autowired
     TrainerRepo trainerRepo;
+
+    @Autowired
+    TraineeRepo traineeRepo;
 
     Set trainerSet = new HashSet();
 
@@ -51,6 +56,19 @@ public class SessionController {
     return "form";
     }
 
+
+    @GetMapping("/regForSession/{id}")
+    public String showSessionForTrainee(Model model,@PathVariable ("id") int id){
+        Trainee trainee =traineeRepo.getById(id);
+        List<Session> session= (List<Session>) sessionRepo.findAll();
+
+        model.addAttribute("sessionForReg",session);
+        model.addAttribute("trainee",trainee);
+
+
+
+        return "session";
+    }
 
     @PostMapping("/addSession")
     public RedirectView addSession (Model model,
@@ -113,10 +131,10 @@ public class SessionController {
             sessionRepo.delete(deletedSession);
 
             }
-            return new RedirectView("allSession");
+            return new RedirectView("/allSession");
 
         }catch (Error error){
-            return new RedirectView("allSession");
+            return new RedirectView("/allSession");
         }
 
     }
@@ -135,12 +153,22 @@ public class SessionController {
         return "updateForm";
 
     }
-//@RequestMapping(method = RequestMethod.PUT
-//        , consumes = {"application/x-www-form-urlencoded"}
-//        ,value = "updateSession/{id}")
-//public RedirectView editSession(@PathVariable int id,@RequestBody MultiValueMap params,Session session) {
 
-    @PutMapping("allSession/updateSession/allSession/updateSession/{id}")
+    @PutMapping("/addTrainee")
+    public RedirectView addTrainee(int trainee,int sessionForReg){
+
+        Session addedSession= sessionRepo.getById(sessionForReg);
+        Trainee addedTrainee = traineeRepo.getById(trainee);
+
+        addedSession.addTrainee( addedTrainee);
+//        addedTrainee.addSession( addedSession);
+
+        traineeRepo.save(addedTrainee);
+//        sessionRepo.save(addedSession);
+        return new RedirectView("");
+
+    }
+    @PutMapping("/updateSession/{id}")
     public RedirectView updateData(@PathVariable int id,Session session,Model model){
 
         Session sessionData = sessionRepo.getById(id);

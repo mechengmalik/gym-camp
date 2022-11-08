@@ -33,6 +33,9 @@ public class Trainee {
     public Trainee() {
     }
 
+    public void addSession(Session session){
+        this.sessions.add(session);
+    }
     public Trainee(String traineeName, String gender, int socialNumber, int phoneNumber, String email) {
         this.traineeName = traineeName;
         this.gender = gender;
@@ -113,6 +116,10 @@ public class Trainee {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    public void addSessions (List<Session> addedSession) {
+        this.sessions.add((Session) addedSession);
     }
 }
 
